@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="myreset.css" />
+    <link rel="stylesheet" href="./memoryCard.css" />
+    <script src="./memoryCard.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <div class="topText">
+        <h1>암기를 재미있게! 플래쉬 카드</h1>
+        <button class="modalOpenBtn">항목 추가</button>
+      </div>
+      <section class="sliderWrap">
+        <ul class="sliderUl">
+          <li class="slider">
+            <div class="front">``
+              <span>클릭하면 뒤집어요</span>
+              <p>resize 이벤트란</p>
+            </div>
+            <div class="back">
+              <span>클릭하면 뒤집어요</span>
+              <p>화면 크기가 변경될 때 발생하는 이벤트</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <div class="modal">
+      <div class="modalCon">
+        <div class="modalHeader">
+          <h2>새로운 항목 추가</h2>
+          <button class="modalCloseBtn">닫기</button>
+        </div>
+        <form id="cardForm">
+          <label for="question">질문</label>
+          <input
+            type="text"
+            id="question"
+            name="question"
+            required
+            placeholder="질문을 적어주세요"
+          />
+          <label for="answer">답변</label>
+          <input
+            type="text"
+            id="answer"
+            name="answer"
+            required
+            placeholder="답변을 적어주세요"
+          />
+          <div>
+            <button type="submit">추가하기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
