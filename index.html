@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Card</title>
+    <link rel="stylesheet" href="../myreset.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="common.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <!-- 메인섹션 -->
+      <section class="card-section">
+        <h1>암기를 재미있게! 플래쉬 카드</h1>
+        <button class="btn add-btn">카드 추가</button>
+        <ul class="card-ul">
+          <li class="card-list">
+            <div class="card-case">
+              <div class="card front">
+                <p class="flip-message">클릭하면 뒤집혀요</p>
+                <p>앞면</p>
+              </div>
+              <div class="card back"><p>뒷면</p></div>
+            </div>
+          </li>
+          <li class="card-list">
+            <div class="card-case">
+              <div class="card front">
+                <p class="flip-message">클릭하면 뒤집혀요</p>
+                <p>앞면</p>
+              </div>
+              <div class="card back"><p>뒷면</p></div>
+            </div>
+          </li>
+          <li class="card-list">
+            <div class="card-case">
+              <div class="card front">
+                <p class="flip-message">클릭하면 뒤집혀요</p>
+                <p>앞면</p>
+              </div>
+              <div class="card back"><p>뒷면</p></div>
+            </div>
+          </li>
+        </ul>
+
+        <!-- 밑에 상대적으로 배치하기위해 div로 묶어서 position: absloute로 설정 -->
+        <div class="navigation">
+          <button>이전</button>
+          <p id="current">0/0</p>
+          <button>다음</button>
+        </div>
+        <button class="btn delete-btn">모든 기록 삭제</button>
+      </section>
+      <!-- 모달섹션 -->
+      <section class="modal-section">
+        <h2>새로운 항목 추가</h2>
+        <button>닫기</button>
+        <label for="question">질문</label>
+        <textarea id="question"></textarea>
+        <label for="answer">답변</label>
+        <textarea id="answer"></textarea>
+        <button class="btn">추가하기</button>
+      </section>
+    </main>
+  </body>
+</html>
