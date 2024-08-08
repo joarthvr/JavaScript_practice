@@ -15,7 +15,7 @@
         <h1>암기를 재미있게! 플래쉬 카드</h1>
         <button class="btn add-btn">카드 추가</button>
         <ul class="card-ul">
-          <li class="card-list">
+          <li class="card-list left">
             <div class="card-case">
               <div class="card front">
                 <p class="flip-message">클릭하면 뒤집혀요</p>
@@ -24,7 +24,7 @@
               <div class="card back"><p>뒷면</p></div>
             </div>
           </li>
-          <li class="card-list">
+          <li class="card-list show">
             <div class="card-case">
               <div class="card front">
                 <p class="flip-message">클릭하면 뒤집혀요</p>
@@ -53,14 +53,16 @@
         <button class="btn delete-btn">모든 기록 삭제</button>
       </section>
       <!-- 모달섹션 -->
-      <section class="modal-section">
-        <h2>새로운 항목 추가</h2>
-        <button>닫기</button>
-        <label for="question">질문</label>
-        <textarea id="question"></textarea>
-        <label for="answer">답변</label>
-        <textarea id="answer"></textarea>
-        <button class="btn">추가하기</button>
+      <section class="modal-section active">
+        <div class="modal-wrap">
+          <h2>새로운 항목 추가</h2>
+          <button class="close-btn">닫기</button>
+          <label for="question">질문</label>
+          <textarea id="question"></textarea>
+          <label for="answer">답변</label>
+          <textarea id="answer"></textarea>
+          <button>추가하기</button>
+        </div>
       </section>
     </main>
   </body>
