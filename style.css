@@ -125,7 +125,7 @@ h1 {
   height: 100%;
   z-index: 999;
 }
-.modal-section.active {
+.modal-section.show {
   opacity: 1;
   transform: scale(1);
 }
