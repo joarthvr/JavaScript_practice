@@ -8,7 +8,7 @@ const $pushCardBtn = document.getElementById("pushCardBtn");
 const $cardUl = document.getElementById("card-ul");
 const $nextBtn = document.getElementById("next-btn");
 const $prevBtn = document.getElementById("prev-btn");
-
+const $deleteAllBtn = document.getElementById("deleteAll");
 //카드 추가 버튼 누르면 모달 나오게 생성
 const toggleClass = (isShow) => {
   $modal.classList.toggle("show", isShow);
@@ -97,6 +97,21 @@ const addCard = () => {
 $pushCardBtn.addEventListener("click", () => {
   addCard();
   toggleClass(false);
+});
+//모든 로컬스토리지 기록 삭제하기
+$deleteAllBtn.addEventListener("click", () => {
+  localStorage.removeItem("cardList");
+  cardsListToSaveLocal = [];
+  // DOM에서 카드 요소들 제거
+  const $cardUl = document.getElementById("card-ul");
+  $cardUl.innerHTML = "";
+  // 카드가 없다는 메시지 표시 (선택사항)
+  const noCardsMessage = document.createElement("li");
+  noCardsMessage.textContent = "새로운 카드를 입력해 주세요";
+  $cardUl.appendChild(noCardsMessage);
+
+  // 현재 카드 인덱스 초기화
+  currentCardIndex = 0;
 });
 
 function loadCards() {
