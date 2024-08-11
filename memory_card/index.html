@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory Card</title>
-    <link rel="stylesheet" href="../myreset.css" />
+    <link rel="stylesheet" href="./myreset.css" />
     <link rel="stylesheet" href="style.css" />
     <script src="app.js" defer></script>
   </head>
@@ -15,26 +15,8 @@
         <h1>암기를 재미있게! 플래쉬 카드</h1>
         <button id="addBtn" class="btn add-btn">카드 추가</button>
         <ul id="card-ul" class="card-ul">
-          <li id="cardList" class="card-list">
+          <!-- <li id="cardList" class="card-list">
             <div id="cardCase" class="card-case">
-              <div class="card front">
-                <p class="flip-message">클릭하면 뒤집혀요</p>
-                <p>앞면</p>
-              </div>
-              <div class="card back"><p>뒷면</p></div>
-            </div>
-          </li>
-          <!-- <li class="card-list show">
-            <div class="card-case">
-              <div class="card front">
-                <p class="flip-message">클릭하면 뒤집혀요</p>
-                <p>앞면</p>
-              </div>
-              <div class="card back"><p>뒷면</p></div>
-            </div>
-          </li>
-          <li class="card-list">
-            <div class="card-case">
               <div class="card front">
                 <p class="flip-message">클릭하면 뒤집혀요</p>
                 <p>앞면</p>
@@ -47,7 +29,7 @@
         <!-- 밑에 상대적으로 배치하기위해 div로 묶어서 position: absloute로 설정 -->
         <div class="navigation">
           <button id="prev-btn">이전</button>
-          <p id="pageState">0/0</p>
+          <p id="pageState"></p>
           <button id="next-btn">다음</button>
         </div>
         <button id="deleteAll" class="btn delete-btn">모든 기록 삭제</button>

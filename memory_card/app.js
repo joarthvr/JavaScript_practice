@@ -9,6 +9,7 @@ const $cardUl = document.getElementById("card-ul");
 const $nextBtn = document.getElementById("next-btn");
 const $prevBtn = document.getElementById("prev-btn");
 const $deleteAllBtn = document.getElementById("deleteAll");
+const $pageState = document.getElementById("pageState");
 //카드 추가 버튼 누르면 모달 나오게 생성
 const toggleClass = (isShow) => {
   $modal.classList.toggle("show", isShow);
@@ -28,6 +29,14 @@ $cardUl.addEventListener("click", (e) => {
     cardCase.classList.toggle("flip");
   }
 });
+//카드 페이지 표시 함수
+const cardIdxAmongAll = (idx) => {
+  if (cardsListToSaveLocal.length <= 0) {
+    $pageState.textContent = "0 / 0";
+  } else {
+    $pageState.textContent = `${idx + 1} / ${cardsListToSaveLocal.length}`;
+  }
+};
 // 카드 다음으로 이동
 $nextBtn.addEventListener("click", () => {
   const cards = document.querySelectorAll(".card-list");
@@ -38,6 +47,7 @@ $nextBtn.addEventListener("click", () => {
     cards[currentCardIndex + 1].classList.add("show");
     console.log(currentCardIndex);
     currentCardIndex++;
+    cardIdxAmongAll(currentCardIndex);
   }
 });
 //카드 이전으로 이동
@@ -50,6 +60,7 @@ $prevBtn.addEventListener("click", () => {
     cards[currentCardIndex - 1].classList.add("show");
     console.log(currentCardIndex);
     currentCardIndex--;
+    cardIdxAmongAll(currentCardIndex);
   }
 });
 
@@ -89,6 +100,7 @@ const addCard = () => {
     currentCardIndex = cardsListToSaveLocal.length - 1;
     createCard(newCard, currentCardIndex);
     console.log(currentCardIndex);
+    cardIdxAmongAll(currentCardIndex);
   } else {
     alert("내용을 입력해주세요");
   }
@@ -112,6 +124,7 @@ $deleteAllBtn.addEventListener("click", () => {
 
   // 현재 카드 인덱스 초기화
   currentCardIndex = 0;
+  cardIdxAmongAll(currentCardIndex);
 });
 
 function loadCards() {
@@ -124,3 +137,4 @@ function loadCards() {
   }
 }
 loadCards();
+cardIdxAmongAll(currentCardIndex);
