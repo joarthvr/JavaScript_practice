@@ -1,5 +1,4 @@
 
-
 async function getData() {
   url.search = new URLSearchParams({
     serviceKey: serviceKey,
