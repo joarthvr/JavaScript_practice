@@ -121,7 +121,7 @@ body {
   gap: 2rem;
   margin-top: 2rem;
 }
-.dumtDIV {
+.sec2-grid-element {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -137,12 +137,12 @@ body {
   height: 70%;
   border-radius: 1rem;
 }
-.grid-info-ul {
+.sec2-grid-info-ul {
   font-size: 1.5rem;
   border: 1px solid black;
   height: 30%;
 }
-.grid-info-name-regidate {
+.sec2-grid-name-date {
   display: flex;
   justify-content: space-between;
   font-style: italic;
