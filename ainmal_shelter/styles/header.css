@@ -1,0 +1,44 @@
+/* 헤더 스타일 */
+.header {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  background-color: var(--Primary-Color-Light-Baige, #fceed5);
+}
+.header-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5rem;
+  gap: 5rem;
+}
+.header h1 {
+  font-size: 3rem;
+  /* width: 200px; */
+  text-align: center;
+  text-align: center;
+  white-space: nowrap;
+  padding-left: 0.65rem;
+}
+body {
+  font-family: "Dongle", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.mw {
+  max-width: 1450px;
+  margin: auto;
+  padding: 0 3rem;
+  overflow: hidden;
+}
+
+.nav-ul {
+  display: flex;
+  color: var(--Primary-Color-Dark-Blue, #003459);
+  gap: 2rem;
+}
+.nav-ul > li {
+  font-size: 1.845rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 24px;
+  flex: 1;
+}

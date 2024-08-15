@@ -1,0 +1,58 @@
+/* 섹션2 */
+.section-2 {
+  /* width: 100%;
+  height: 30vh; */
+  margin-top: 80px;
+  height: 100vh;
+}
+.section-2 > h2 {
+  text-align: center;
+  font-size: 46px;
+  font-style: italic;
+  white-space: nowrap;
+}
+.sec2-animal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  overflow: hidden;
+  padding-bottom: 20rem;
+}
+.sec2-grid-element {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 0.5rem;
+  width: 310px;
+  height: 24.6875rem;
+  padding: 8px;
+  border-radius: 1rem;
+  box-shadow: 0 0 5px rgba(0.2, 0.2, 0.2, 0.2);
+}
+.sec2-grid-img-box {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  border-radius: 1rem;
+}
+.sec2-grid-img {
+  position: absolute;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+}
+.sec2-grid-info-ul {
+  width: 100%;
+  font-size: 1.5rem;
+  /* border: 1px solid black; */
+  height: 40%;
+}
+.sec2-grid-name-date {
+  display: flex;
+  justify-content: space-between;
+  font-style: italic;
+  font-size: 1.7rem;
+  margin-bottom: 0.4rem;
+}

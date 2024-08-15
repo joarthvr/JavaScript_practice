@@ -10,10 +10,15 @@
       href="https://fonts.googleapis.com/css2?family=Dongle&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="myreset.css" />
-    <link rel="stylesheet" href="style.css" />
-    <script type="module" src="key.js" defer></script>
-    <script type="module" src="app.js" defer></script>
+    <link rel="stylesheet" href="./styles/myreset.css" />
+    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/section1.css" />
+    <link rel="stylesheet" href="./styles/section2.css" />
+    <link rel="stylesheet" href="./styles/modal.css" />
+    <script type="module" src="./scripts/key.js" defer></script>
+    <script type="module" src="./scripts/fetch.js" defer></script>
+    <script type="module" src="./scripts/section2.js" defer></script>
+    <script type="module" src="./scripts/modal.js" defer></script>
   </head>
   <body>
     <header class="header">
@@ -53,8 +58,13 @@
             </ul>
           </div> -->
         </ul>
+        <div id = "pagination" class = "pagination">
+          <button id="pg-prev" class="pg-prev">이전</button>
+          <button id="first-pg" class="first">1</button>
+          <button id="pg-next" class="pg-next">다음</button>
+        </div>
       </section>
-      <section></section>
+      <section class = section-3 mw></section>
     </main>
   </body>
 </html>
