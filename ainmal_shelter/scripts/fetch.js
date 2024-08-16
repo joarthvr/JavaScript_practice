@@ -27,29 +27,6 @@ export const fetchData = async (endpoint, params) => {
   }
 };
 
-// 시도 정보 가져오기
-export const getCity = async () => {
-  try {
-    const data = await fetchData("sido", { numOfRows: 10, pageNo: 1 });
-    if (!data.response?.body?.items?.item) {
-      throw new Error("시도 정보를 가져오는데 실패했습니다.");
-    }
-
-    return data.response.body.items.item;
-  } catch (error) {
-    console.error("시도 정보 조회 중 오류 발생:", error);
-    throw error; // 오류를 상위로 전파
-  }
-};
-
-// 시군구 정보 가져오기
-export const getDistrict = async (uprCd) => {
-  const data = await fetchData("sigungu", { upr_cd: uprCd });
-  if (!data.response?.body?.items?.item) {
-    throw new Error("시군구 정보를 가져오는데 실패했습니다.");
-  }
-  return data.response.body.items.item;
-};
 
 // 품종 정보 가져오기
 export const getKind = async (kind) => {
