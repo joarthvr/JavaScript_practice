@@ -17,7 +17,7 @@
   gap: 2rem;
   margin-top: 2rem;
   overflow: hidden;
-  padding-bottom: 20rem;
+  padding: 0 2rem 4rem 2rem;
 }
 .sec2-grid-element {
   display: flex;
@@ -55,4 +55,22 @@
   font-style: italic;
   font-size: 1.7rem;
   margin-bottom: 0.4rem;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.pagination > button {
+  font-style: italic;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1.24rem;
+  cursor: pointer;
+  color: var(--Primary-Color-Dark-Blue);
+  background-color: white;
+}
+.pagination > button.active {
+  color:var(--Primary-Color-Light-Baige);
 }

@@ -1,45 +1,40 @@
 import { fetchData, todayDate, tenDaysAgo } from "./fetch.js";
-// 페이지네이션 상태를 관리하는 객체
-const paginationState = {
-  currentPage: 1, // 현재 페이지 번호
-  totalPages: 8, // 전체 페이지 수
 
-  // 현재 페이지를 설정하는 메소드
+const paginationState = {
+  currentPage: 1,
+  totalResults: 0,
+  groupSize: 10,
+  pageSize: 8,
   setCurrentPage(page) {
     this.currentPage = page;
   },
-
-  // 전체 페이지 수를 설정하는 메소드
-  setTotalPages(total) {
-    this.totalPages = total;
+  setTotalResults(total) {
+    this.totalResults = total;
   },
 };
-// 보호소 기간이 얼마 안남은 유기 동물 정보 가져오기
+
 const getPublic = async (params) => {
-  const { ...otherParams } = params;
-  console.log("otherParams:", otherParams);
-  const data = await fetchData("abandonmentPublic", {
-    ...otherParams,
-  });
-  console.log("data:", data.response.body.items.item);
+  const data = await fetchData("abandonmentPublic", params);
   if (!data.response?.body?.items?.item) {
-    alert("해당 조건의 유기동물이 없습니다.");
+    document.getElementById("sec2-grid").innerHTML =
+      "<p>표시할 데이터가 없습니다.</p>";
+    return [];
   }
-  return data.response.body.items.item;
+  paginationState.setTotalResults(parseInt(data.response.body.totalCount));
+  return Array.isArray(data.response.body.items.item)
+    ? data.response.body.items.item
+    : [data.response.body.items.item];
 };
-// DOM 조작 및 렌더링
+
 const renderPublics = (publics) => {
-  if (!Array.isArray(publics)) {
-    console.error("correct array 보내");
+  const $sec2Grid = document.getElementById("sec2-grid");
+  if (!Array.isArray(publics) || publics.length === 0) {
+    $sec2Grid.innerHTML = "<p>표시할 데이터가 없습니다.</p>";
     return;
   }
-  const $sec2Grid = document.getElementById("sec2-grid");
+
   const fragment = document.createDocumentFragment();
   publics.forEach((element, idx) => {
-    if (!element) {
-      alert("한 달 이내 보호소 체류 기간이 만료되는 유기 동물이 없습니다.");
-      return;
-    }
     const gridElement = document.createElement("div");
     gridElement.id = `sec2-grid-element-${idx}`;
     gridElement.className = "sec2-grid-element";
@@ -50,36 +45,36 @@ const renderPublics = (publics) => {
         )}.${element.happenDt.slice(6, 8)}`
       : "날짜 없음";
     gridElement.innerHTML = `
-          <div class="sec2-grid-img-box">
-          <img class = "sec2-grid-img"src="${
-            element.popfile || "./img/nono.png"
-          }" alt="${element.kindCd || "동물 사진"}" />
-            </div>
-            <ul class="sec2-grid-info-ul">
-            <li class="sec2-grid-name-date">
-            <span>${element.kindCd || "품종 정보 없음"}</span>
-            <span>${happenDate}</span>
-            </li>
-            <li>${element.careNm || "보호소 정보 없음"}</li>
-            <li>${element.orgNm || "보호소 위치 정보 없음"}</li>
-            <li>유기번호: ${element.desertionNo || "정보 없음"}</li>
-            <li>${element.noticeSdt || "정보 없음"}-${
+      <div class="sec2-grid-img-box">
+        <img class="sec2-grid-img" src="${
+          element.popfile || "./img/nono.png"
+        }" alt="${element.kindCd || "동물 사진"}" />
+      </div>
+      <ul class="sec2-grid-info-ul">
+        <li class="sec2-grid-name-date">
+          <span>${element.kindCd || "품종 정보 없음"}</span>
+          <span>${happenDate}</span>
+        </li>
+        <li>${element.careNm || "보호소 정보 없음"}</li>
+        <li>${element.orgNm || "보호소 위치 정보 없음"}</li>
+        <li>유기번호: ${element.desertionNo || "정보 없음"}</li>
+        <li>${element.noticeSdt || "정보 없음"}-${
       element.noticeEdt || "정보 없음"
     }</li>
-            </ul>
-            `;
+      </ul>
+    `;
     fragment.appendChild(gridElement);
   });
-  $sec2Grid.innerHTML = ""; // 기존 내용을 비우고
-  $sec2Grid.appendChild(fragment); // 새 내용을 추가
+  $sec2Grid.innerHTML = "";
+  $sec2Grid.appendChild(fragment);
 };
 
-// 유기동물 정보 가져오기 및 렌더링
-const fetchAndRenderPublics = async (pageNo) => {
+const fetchAndRenderPublics = async () => {
+  const { currentPage, pageSize } = paginationState;
   try {
     const publicsData = await getPublic({
-      numOfRows: 8,
-      pageNo: paginationState.currentPage || 1,
+      numOfRows: pageSize,
+      pageNo: currentPage,
       upkind: "",
       kind: "",
       upr_cd: "",
@@ -91,37 +86,65 @@ const fetchAndRenderPublics = async (pageNo) => {
       neuter_yn: "",
     });
     renderPublics(publicsData);
-    // console.log("publicsData:", publicsData.response.body.items.item);
+    updatePaginationUI();
   } catch (error) {
     console.error("Error fetching or rendering publics:", error);
   }
 };
-// DOM이 로드된 후 실행
-document.addEventListener("DOMContentLoaded", fetchAndRenderPublics(1));
-//페이지네이션
 
-const $pagination = document.getElementById("pagination");
-const $pgNext = document.getElementById("pg-next");
-const $pgPrev = document.getElementById("pg-prev");
+const updatePaginationUI = () => {
+  const { currentPage, totalResults, groupSize, pageSize } = paginationState;
+  let pageGroup = Math.ceil(currentPage / groupSize);
+  let lastPage = Math.min(
+    Math.ceil(totalResults / pageSize),
+    pageGroup * groupSize
+  );
+  let firstPage = (pageGroup - 1) * groupSize + 1;
+  let totalPage = Math.ceil(totalResults / pageSize);
+  let prevGroup = Math.max(1, (pageGroup - 2) * groupSize + 1);
+  let nextGroup = Math.min(totalPage, pageGroup * groupSize + 1);
 
-// 다음 페이지 버튼 클릭 이벤트 리스너
-$pgNext.addEventListener("click", () => {
-  // 현재 페이지가 전체 페이지 수보다 작은 경우에만 다음 페이지로 이동
-  if (paginationState.currentPage < paginationState.totalPages) {
-    // 현재 페이지 번호를 1 증가
-    paginationState.setCurrentPage(paginationState.currentPage + 1);
-    // 새로운 데이터를 가져오고 렌더링
-    fetchAndRenderPublics();
+  let paginationHtml = `
+    <button class="prev-group" ${
+      pageGroup === 1 ? "disabled" : ""
+    } data-page="${prevGroup}">이전 그룹</button>
+    <button class="prev" ${currentPage === 1 ? "disabled" : ""} data-page="${
+    currentPage - 1
+  }">이전</button>
+  `;
+
+  for (let i = firstPage; i <= lastPage; i++) {
+    paginationHtml += `<button class="${
+      i === currentPage ? "active" : ""
+    }" data-page="${i}">${i}</button>`;
   }
-});
 
-// 이전 페이지 버튼 클릭 이벤트 리스너
-$pgPrev.addEventListener("click", () => {
-  // 현재 페이지가 1보다 큰 경우에만 이전 페이지로 이동
-  if (paginationState.currentPage > 1) {
-    // 현재 페이지 번호를 1 감소
-    paginationState.setCurrentPage(paginationState.currentPage - 1);
-    // 새로운 데이터를 가져오고 렌더링
-    fetchAndRenderPublics();
+  paginationHtml += `
+    <button class="next" ${
+      currentPage >= totalPage ? "disabled" : ""
+    } data-page="${currentPage + 1}">다음</button>
+    <button class="next-group" ${
+      pageGroup * groupSize >= totalPage ? "disabled" : ""
+    } data-page="${nextGroup}">다음 그룹</button>
+  `;
+
+  document.getElementById("pagination").innerHTML = paginationHtml;
+};
+
+const handlePaginationClick = (e) => {
+  if (e.target.tagName === "BUTTON" && !e.target.disabled) {
+    const pageNum = parseInt(e.target.dataset.page);
+    if (!isNaN(pageNum) && pageNum !== paginationState.currentPage) {
+      paginationState.setCurrentPage(pageNum);
+      fetchAndRenderPublics();
+    }
   }
+};
+
+// 초기 실행 및 이벤트 리스너 설정
+document.addEventListener("DOMContentLoaded", () => {
+  fetchAndRenderPublics();
+  document
+    .getElementById("pagination")
+    .addEventListener("click", handlePaginationClick);
 });
