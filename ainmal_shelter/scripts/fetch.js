@@ -1,7 +1,6 @@
 import key from "./key.js";
 const { API_KEY } = key;
 const BASE_URL = "https://apis.data.go.kr/1543061/abandonmentPublicSrvc";
-// import { renderPublics } from "./app.js";
 
 //데이터 가져오기
 export const fetchData = async (endpoint, params) => {
@@ -28,16 +27,6 @@ export const fetchData = async (endpoint, params) => {
 };
 
 
-// 품종 정보 가져오기
-export const getKind = async (kind) => {
-  console.log("kind:", kind);
-  const dogOrCat = kind === "dog" ? 417000 : 422400;
-  const data = await fetchData("kind", { up_kind_cd: dogOrCat });
-  if (!data.response?.body?.items?.item) {
-    throw new Error("품종 정보를 가져오는데 실패했습니다.");
-  }
-  return data.response.body.items.item;
-};
 
 // 보호소 정보 가져오기
 export const getShelter = async (uprCd, orgCd) => {
