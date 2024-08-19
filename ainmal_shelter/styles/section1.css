@@ -43,8 +43,8 @@
 .sec1-wrap::before {
   top: 20%;
   left: 50%;
-  width: 635px;
-  height: 535px;
+  width: 435px;
+  height: 335px;
   background-color: var(--Primary-Color-Dark-Blue, #003459);
   transform: rotate(9.355deg);
 }
@@ -52,8 +52,8 @@
 .sec1-wrap::after {
   left: 50%;
   top: 26%;
-  width: 39.6875rem;
-  height: 39.6875rem;
+  width: 28.6875rem;
+  height: 28.6875rem;
   transform: rotate(15.23deg);
   border-radius: 6.1875rem;
   background: var(--Secondary-Color-Mon-Yellow, #f7dba7);
