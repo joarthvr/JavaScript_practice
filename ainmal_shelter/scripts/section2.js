@@ -19,9 +19,7 @@ const paginationState = {
 
 const getPublic = async (params) => {
   const data = await fetchData("abandonmentPublic", params);
-  // console.log(data.response.body.items.item);
   paginationState.setData(data.response.body.items.item);
-  console.log(paginationState.data);
   if (!data.response?.body?.items?.item) {
     document.getElementById("sec2-grid").innerHTML =
       "<p>표시할 데이터가 없습니다.</p>";
@@ -219,7 +217,7 @@ $sec2Grid.addEventListener("click", (e) => {
             </div>
         </div>
     `;
-// 모달 열기 함수 (기존 코드에 추가)
+// 모달 열기 함수 
 function openModal() {
   $modal.classList.add("active");
 }

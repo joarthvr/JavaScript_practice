@@ -95,10 +95,10 @@
   bottom: 10px;
   left: 10px;
   background-color: white;
-  border: 1px solid #007bff;
-  color: #007bff;
+  color: #003459;
   padding: 8px 15px;
-  border-radius: 20px;
+  border-radius: 3.5625rem;
+  border: 1.5px solid var(--Primary-Color-Dark-Blue, #003459);
   cursor: pointer;
 }
 
@@ -107,19 +107,26 @@
   flex-direction: column;
 }
 
-.modal-info-top {
-  margin-bottom: 20px;
+.modal-info-top p:nth-of-type(1) {
+  color: var(--Neutral-Color-40, #99a2a5);
+  font-size: 0.75rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.125rem;
 }
-
-.modal-info-top li {
-  list-style-type: none;
-  margin-bottom: 5px;
+.modal-info-top p:nth-of-type(2) {
+  color: var(--Primary-Color-Dark-Blue-80, #002a48);
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 2rem; 
 }
-
-.modal-info-top li:nth-child(2) {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 10px 0;
+.modal-info-top > h2 {
+  color: var(--Neutral-Color-100, #00171f);
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 2.25rem;
 }
 
 .modal-info-detail {
@@ -130,9 +137,7 @@
   border-radius: 5px;
   padding: 15px;
   color: var(--Neutral-Color-60, #667479);
-  font-family: ABeeZee;
-  font-size: 0.875rem;
-  font-style: italic;
+  font-size: 1.246rem;
   font-weight: 400;
   line-height: 1.25rem; /* 142.857% */
   white-space: nowrap;
@@ -141,11 +146,6 @@
   margin-bottom: 0.33rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 검은색 10% 불투명도 */
 }
-/* .modal-info-detail div:nth-child(odd) {
-  font-weight: bold;
-  color: #555;
-} */
-
 .map {
   margin-top: 20px;
   height: 200px;

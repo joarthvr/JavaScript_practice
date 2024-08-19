@@ -10,13 +10,27 @@
   height: 5rem;
   gap: 5rem;
 }
-.header h1 {
+.header-h1 {
   font-size: 3rem;
-  /* width: 200px; */
   text-align: center;
   text-align: center;
   white-space: nowrap;
   padding-left: 0.65rem;
+  position: relative;
+  z-index: 3;
+}
+.header-h1:before {
+  bottom:160%;
+  left: -250%;
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 39.6875rem;
+  height: 39.6875rem;
+  transform: rotate(25.23deg);
+  flex-shrink: 0;
+  border-radius: 6.1875rem;
+  background: var(--Secondary-Color-Mon-Yellow, #f7dba7);
 }
 body {
   font-family: "Dongle", sans-serif;
