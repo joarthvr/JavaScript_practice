@@ -154,6 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("pagination")
     .addEventListener("click", handlePaginationClick);
 });
+
 const $sec2Grid = document.getElementById("sec2-grid");
 const $modal = document.getElementById("modal");
 const $modalWrap = document.getElementById("modal-wrap");

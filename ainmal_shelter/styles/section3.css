@@ -3,17 +3,20 @@
   min-height: 300px;
   height: auto;
 }
+
 .sec3-top {
   display: flex;
   width: 100%;
   justify-content: space-between;
   text-align: center;
 }
+
 .sec3-top > img {
   width: 8.0625rem;
   height: 7.6875rem;
   flex-shrink: 0;
 }
+
 .sec3-top > h2 {
   white-space: nowrap;
   color: var(--Primary-Color-Dark-Blue, #003459);
@@ -25,6 +28,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .sec3-select-box {
   display: flex;
   justify-content: center;
@@ -33,6 +37,7 @@
   margin-top: 2rem;
   width: 100%;
 }
+
 .sec3-select {
   width: 18%;
   padding: 10px 12px 8px 20px;
@@ -43,31 +48,34 @@
   color: #667479;
   position: relative;
 }
+
 .sec3-animal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
-  overflow: hidden;
   padding: 2rem 2rem 4rem 2rem;
 }
+
 .sec3-grid-element {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 0.5rem;
-  width: 310px;
+  width: 100%;
   height: 24.6875rem;
   padding: 8px;
   border-radius: 1rem;
   box-shadow: 0 0 5px rgba(0.2, 0.2, 0.2, 0.2);
 }
+
 .sec3-grid-img-box {
   position: relative;
   width: 100%;
   height: 70%;
   border-radius: 1rem;
 }
+
 .sec3-grid-img {
   position: absolute;
   object-fit: cover;
@@ -75,12 +83,13 @@
   height: 100%;
   border-radius: 1rem;
 }
+
 .sec3-grid-info-ul {
   width: 100%;
   font-size: 1.5rem;
-  /* border: 1px solid black; */
   height: 40%;
 }
+
 .sec3-grid-name-date {
   display: flex;
   justify-content: space-between;
@@ -88,22 +97,17 @@
   font-size: 1.7rem;
   margin-bottom: 0.4rem;
 }
+
 .loading-indicator {
-  display: block;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 100px;
   width: 100%;
-  font-size: 200px;
+  font-size: 20px;
   color: var(--Primary-Color-Dark-Blue, #003459);
 }
-.loading-indicator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+
 .loading-indicator > span {
   width: 20px;
   height: 20px;
@@ -112,12 +116,15 @@
   margin: 0 5px;
   animation: bounce 0.6s infinite alternate;
 }
+
 .loading-indicator > span:nth-child(2) {
   animation-delay: 0.2s;
 }
+
 .loading-indicator > span:nth-child(3) {
   animation-delay: 0.4s;
 }
+
 @keyframes bounce {
   0% {
     transform: translateY(0);
