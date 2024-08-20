@@ -103,7 +103,7 @@ body {
   line-height: 1;
 }
 ol,
-ul {
+ul,li {
   list-style: none;
 }
 blockquote,
@@ -146,4 +146,5 @@ main{
 .topBtnIcon{
   width: 30%;
   height: 30%;
+  z-index: 2;
 }

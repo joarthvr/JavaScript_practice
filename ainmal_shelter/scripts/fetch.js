@@ -11,7 +11,6 @@ export const fetchData = async (endpoint, params) => {
       _type: "json",
       ...params,
     });
-    // console.log("Fetching URL:", url.toString()); // 디버깅을 위한 URL 출력
     const response = await fetch(url);
     // HTTP 오류 처리
     if (!response.ok) {

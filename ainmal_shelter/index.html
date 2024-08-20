@@ -25,7 +25,7 @@
   <body>
     <header class="header">
       <div class="header-wrap mw">
-        <h1><a href="#">데려가냥?</a></h1>
+        <h1 class="header-h1"><a href="#">데려가냥?</a></h1>
         <nav>
           <ul class="nav-ul">
             <li><a href="#">Home</a></li>
@@ -38,17 +38,26 @@
     <main>
       <section class="section-1">
         <div class="sec1-wrap mw">
-          <h2>One More Friend</h2>
+          <h2 class="sec1-h2">One More Friend</h2>
           <p>Thousand More Fun!</p>
+          <img class="sec1-img" src="./img/group.svg" alt="group" />
         </div>
       </section>
       <section class="section-2 mw">
-        <h2>빨리 데려가세요!</h2>
+        <div class="sec2-top">
+          <img src="./img/sec2_dog.svg" alt="dog" />
+          <h2>빨리 데려가세요!</h2>
+          <img src="./img/sec3_cat.svg" alt="cat" />
+        </div>
         <ul id="sec2-grid" class="sec2-animal-grid"></ul>
         <div id="pagination" class="pagination"></div>
       </section>
       <section class="section-3 mw">
-        <h2>많은 친구들이 엄마 아빠를 구해요!</h2>
+        <div class="sec3-top">
+          <img src="./img/sec3_dog.svg" alt="dog" />
+          <h2>많은 친구들이 엄마 아빠를 구해요!</h2>
+          <img src="img/sec3_cat.svg" alt="cat" />
+        </div>
         <ul class="sec3-select-box">
           <select class="sec3-select" id="city-select">
             <option value="null" selected>시/도 선택</option>
@@ -65,16 +74,23 @@
             <option value="null" selected>품종</option>
           </select>
         </ul>
-        <ul id="sec3-grid" class="sec3-animal-grid">
-
-        </ul>
+        <ul id="sec3-grid" class="sec3-animal-grid"></ul>
+        <div id="loading-indicator" class="loading-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </section>
-
-      <section class="modal"></section>
-      <div id = "top-btn" class="topBtn">
-        <img class = "topBtnIcon" src="img/Arrow/Arrow_Circle_Up.png"></img>
+      <div id="top-btn" class="topBtn">
+        <img class="topBtnIcon" src="img/Arrow/Arrow_Circle_Up.png" />
         <p>맨 위로</p>
-    </div>
+      </div>
     </main>
+    <section id="modal" class="modal">
+      <div id="modal-wrap" class="modal-wrap"></div>
+      <div class="map">
+        <!-- 지도가 들어갈 자리 -->
+      </div>
+    </section>
   </body>
 </html>

@@ -6,7 +6,13 @@ const $districtSelect = document.getElementById("district-select");
 const $dogOrCatSelect = document.getElementById("dog-or-cat-select");
 const $kindSelect = document.getElementById("kind-select");
 const $sec3Grid = document.getElementById("sec3-grid");
-// const $loadingIndicator = document.getElementById("loading-indicator");
+
+// 로딩 인디케이터 요소 생성
+const $loadingIndicator = document.createElement("div");
+$loadingIndicator.id = "loading-indicator";
+$loadingIndicator.textContent = "로딩 중...";
+$loadingIndicator.style.display = "none";
+document.body.appendChild($loadingIndicator);
 
 // 선택된 옵션 상태
 const selectedOptionsState = {
@@ -21,7 +27,7 @@ const selectedOptionsState = {
     this.district = district;
   },
   setDogOrCat(dogOrCat) {
-    this.dogOrCat = dogOrCat;
+    this.dogOrCat = dogOrCat === "dog" ? "417000" : "422400";
   },
   setKind(kind) {
     this.kind = kind;
@@ -31,6 +37,7 @@ const selectedOptionsState = {
 let currentPage = 1;
 let isLoading = false;
 let hasMoreData = true;
+let girdElementNumber = 0;
 
 const fetchAPI = async (endpoint, params) => {
   try {
@@ -53,9 +60,8 @@ const fetchAPI = async (endpoint, params) => {
 };
 
 // 품종 정보 가져오기
-export const getKind = async (kind) => {
-  const dogOrCat = kind === "dog" ? 417000 : 422400;
-  const data = await fetchAPI("kind", { up_kind_cd: dogOrCat });
+export const getKind = async (upKindCd) => {
+  const data = await fetchAPI("kind", { up_kind_cd: upKindCd });
   if (!data.response?.body?.items?.item) {
     throw new Error("품종 정보를 가져오는데 실패했습니다.");
   }
@@ -128,6 +134,7 @@ const renderKindOptions = async (arr) => {
 //grid
 const getPublic = async (params) => {
   const data = await fetchAPI("abandonmentPublic", params);
+  console.log("data:", data.response.body.items);
   if (!data.response?.body?.items?.item) {
     return [];
   }
@@ -151,6 +158,8 @@ const renderPublics = (publics, isNewSearch) => {
     const gridElement = document.createElement("div");
     gridElement.id = `sec3-grid-element-${idx}`;
     gridElement.className = "sec3-grid-element";
+    gridElement.setAttribute("data-idx", idx);
+    gridElement.setAttribute("data-num", girdElementNumber++);
     const happenDate = element.happenDt
       ? `${element.happenDt.slice(0, 4)}.${element.happenDt.slice(
           4,
@@ -176,6 +185,8 @@ const renderPublics = (publics, isNewSearch) => {
     }</li>
       </ul>
     `;
+    // API 데이터를 그리드 요소에 저장
+    gridElement.dataset.apiData = JSON.stringify(element);
     fragment.appendChild(gridElement);
   });
   $sec3Grid.appendChild(fragment);
@@ -193,7 +204,7 @@ const fetchAndRenderGrid = async (isNewSearch = false) => {
   }
 
   isLoading = true;
-  // $loadingIndicator.style.display = 'block';
+  $loadingIndicator.style.display = "block";
 
   try {
     const publicsData = await getPublic({
@@ -223,9 +234,33 @@ const fetchAndRenderGrid = async (isNewSearch = false) => {
     console.error("Error fetching or rendering publics:", error);
     $sec3Grid.innerHTML += "<p>데이터를 불러오는 중 오류가 발생했습니다.</p>";
   } finally {
+    $loadingIndicator.style.display = "none";
     isLoading = false;
-    // $loadingIndicator.style.display = 'none';
   }
+  console.log(currentPage);
+};
+
+// Intersection Observer 설정
+const observerOptions = {
+  root: null,
+  rootMargin: "0px",
+  threshold: 0.1,
+};
+
+const intersectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting && !isLoading && hasMoreData) {
+      fetchAndRenderGrid();
+    }
+  });
+}, observerOptions);
+
+// 필터 변경 시 그리드 초기화 및 새로운 데이터 로드
+const resetAndFetchGrid = () => {
+  currentPage = 1;
+  $sec3Grid.innerHTML = "";
+  hasMoreData = true;
+  fetchAndRenderGrid(true);
 };
 
 // 이벤트 리스너
@@ -233,42 +268,130 @@ $citySelect.addEventListener("change", async (e) => {
   const selectedCity = e.target.value;
   selectedOptionsState.setSelectedCity(selectedCity);
   await fetchAndRenderDistrictsOptions(selectedOptionsState.city);
-  fetchAndRenderGrid(true);
+  resetAndFetchGrid();
 });
 
-$districtSelect.addEventListener("change", async (e) => {
+$districtSelect.addEventListener("change", (e) => {
   const selectedDistrict = e.target.value;
   selectedOptionsState.setDistrict(selectedDistrict);
-  fetchAndRenderGrid(true);
+  resetAndFetchGrid();
 });
 
 $dogOrCatSelect.addEventListener("change", async (e) => {
   const selectedDogOrCat = e.target.value;
   selectedOptionsState.setDogOrCat(selectedDogOrCat);
-  const getgetKind = await getKind(selectedDogOrCat);
-  renderKindOptions(getgetKind);
-  fetchAndRenderGrid(true);
+  const upKindCd = selectedDogOrCat === "dog" ? "417000" : "422400";
+  const kindData = await getKind(upKindCd);
+  renderKindOptions(kindData);
+  resetAndFetchGrid();
 });
 
-$kindSelect.addEventListener("change", async (e) => {
+$kindSelect.addEventListener("change", (e) => {
   const selectedKind = e.target.value;
   selectedOptionsState.setKind(selectedKind);
-  fetchAndRenderGrid(true);
-});
-
-// 무한 스크롤 이벤트 리스너
-window.addEventListener("scroll", () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-    fetchAndRenderGrid();
-  }
+  resetAndFetchGrid();
 });
 
 // 초기화
-document.addEventListener("DOMContentLoaded", () => {
+const initialize = () => {
   fetchAndRenderCityOptions();
-  fetchAndRenderGrid();
-});
+  fetchAndRenderGrid(true);
+
+  // 로딩 인디케이터에 대한 observer 설정
+  intersectionObserver.observe($loadingIndicator);
+};
+
+document.addEventListener("DOMContentLoaded", initialize);
+
 const $topBtn = document.getElementById("top-btn");
 $topBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+const $modal = document.getElementById("modal");
+const $modalWrap = document.getElementById("modal-wrap");
+
+$sec3Grid.addEventListener("click", (e) => {
+  const gridElementContainer = e.target.closest(".sec3-grid-element");
+  if (!gridElementContainer) return;
+
+  const apiData = JSON.parse(gridElementContainer.dataset.apiData);
+  if (!apiData) {
+    console.error("No data found for this element");
+    return;
+  }
+
+  $modal.classList.add("active");
+
+  const modalContent = document.createElement("div");
+  modalContent.className = "modal-content";
+  modalContent.innerHTML = `
+    <div class="modal-top">
+      <div class="modal-img-box">
+        <img src="${apiData.popfile || "./img/nono.png"}" alt="${
+    apiData.kindCd || "동물 사진"
+  }">
+        <button class="go-to-shelter">보호소 바로가기 ></button>
+      </div>
+      <div class="modal-info-box">
+        <div class="modal-info-top">
+          <p class="animal-id">유기번호: ${
+            apiData.desertionNo || "정보 없음"
+          }</p>
+          <h2 class="animal-name">${apiData.kindCd || "품종 정보 없음"}</h2>
+          <p class="protection-period">보호기간 ${
+            apiData.noticeSdt || "정보 없음"
+          } - ${apiData.noticeEdt || "정보 없음"}</p>
+        </div>
+        <div class="modal-info-detail">
+          <div><p>품종</p></div>
+          <div><p>:${apiData.kindCd || "정보 없음"}</p></div>
+          <div><p>성별</p></div>
+          <div><p>:${apiData.sexCd || "정보 없음"}</p></div>
+          <div><p>나이</p></div>
+          <div><p>:${apiData.age || "정보 없음"}</p></div>
+          <div><p>색상</p></div>
+          <div><p>:${apiData.colorCd || "정보 없음"}</p></div>
+          <div><p>체중</p></div>
+          <div><p>:${apiData.weight || "정보 없음"}</p></div>
+          <div><p>상태</p></div>
+          <div><p>:${apiData.processState || "정보 없음"}</p></div>
+          <div><p>접수일시</p></div>
+          <div><p>:${apiData.happenDt || "정보 없음"}</p></div>
+         <div><p>발견장소</p></div>
+          <div><p>:${apiData.happenPlace || "정보 없음"}</p></div>
+          <div><p>보호센터</p></div>
+          <div><p><div><p>보호센터</p></div>
+          <div><p>:${apiData.careNm || "정보 없음"}</p></div>
+          <div></div>
+          <div><p>:${apiData.orgNm || "정보 없음"}</p></div>
+          <div></div>
+          <div><p>:${apiData.careTel || "정보 없음"}</p></div>
+          <div><p>담당자</p></div>
+          <div><p>:${apiData.chargeNm || "정보 없음"}</p></div>
+          <div></div>
+          <div><p>:${apiData.officetel || "정보 없음"}</p></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // 모달 닫기 함수
+  function closeModal() {
+    $modal.classList.remove("active");
+    // 선택적: 모달 내용 초기화
+    $modalWrap.innerHTML = "";
+  }
+
+  // 모달 바깥 클릭 시 닫기 이벤트
+  $modal.addEventListener("click", (e) => {
+    // 클릭된 요소가 모달 자체인 경우에만 닫기
+    // (이벤트 타겟이 모달이면서 현재 타겟도 모달일 때)
+    if (e.target === $modal && e.currentTarget === $modal) {
+      closeModal();
+    }
+  });
+  // 기존 모달 내용을 제거하고 새 내용을 추가
+  $modalWrap.innerHTML = "";
+  $modalWrap.appendChild(modalContent);
 });
